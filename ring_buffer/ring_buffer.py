@@ -18,10 +18,15 @@ class RingBuffer:
 
         # If length equal to capacity
         elif self.storage.length == self.capacity:
-            # Head is the oldest, so remove current head and replace it with incoming item and set it to current
-            self.storage.remove_from_head()
-            self.storage.add_to_head(item)
-            self.current = self.storage.head
+            if not self.current.next:
+                self.storage.remove_from_head()
+                self.storage.add_to_head(item)
+                self.current = self.storage.head
+
+            else:
+                self.current.next.delete()
+                self.current.insert_after(item)
+                self.current = self.current.next
 
     def get(self):
         # Note:  This is the only [] allowed
